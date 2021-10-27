@@ -1,0 +1,29 @@
+{
+  "bodyweight": 66,
+  "lifts": {
+    "squat": {
+      "3RM":120,
+      "progression":2.5
+    },
+    "deadlift": {
+      "3RM":135,
+      "progression":2.5
+    },
+    "press": {
+      "3RM":52.5,
+      "progression":1.25
+    },
+    "bench": {
+      "3RM":82.5,
+      "progression":1.25
+    },
+    "chins": {
+      "3RM":96.25,
+      "progression":1.25
+    },
+    "rows": {
+      "3RM":72.5,
+      "progression":1.25
+    }
+  }
+}
