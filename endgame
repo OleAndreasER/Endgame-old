@@ -1,11 +1,39 @@
 #!/bin/python3
 
 import json
+import sys
 
 def main():
-    with open('logs.json') as f:
-        logs = json.load(f)
+    args = sys.argv
+    if args[1] == 'rm':
+        removed = removeLog()
+        print('removed', removed)
+    elif args[1] == 'add':
+        appendLogs({"test":"srntdeai"})
+        print('added')
+    else:
+        print('invalid argument')
 
-    print(logs[0]['lifts'][0]['name'])
+
+
+def writeLogs(data):
+    with open('logs.json', 'w') as f:
+        json.dump(data, f, indent=2)
+
+def readLogs():
+    with open('logs.json') as f:
+        return json.loads(f.read())
+
+def appendLogs(data):
+    logs = readLogs()
+    logs.append(data)
+    writeLogs(logs)
+
+def removeLog():
+    logs = readLogs()
+    ret = logs.pop()
+    writeLogs(logs)
+    return ret
+    
 
 if __name__ == "__main__": main()
