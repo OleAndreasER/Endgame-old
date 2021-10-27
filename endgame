@@ -3,6 +3,9 @@
 import json
 
 def main():
-    print("H")
+    with open('logs.json') as f:
+        logs = json.load(f)
+
+    print(logs[0]['lifts'][0]['name'])
 
 if __name__ == "__main__": main()
