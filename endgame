@@ -11,6 +11,8 @@ def main():
     elif args[1] == 'add':
         appendLogs({"test":"srntdeai"})
         print('added')
+    elif args[1] == 'list':
+        print(lastLogs(args))
     else:
         print('invalid argument')
 
@@ -31,9 +33,20 @@ def appendLogs(data):
 
 def removeLog():
     logs = readLogs()
-    ret = logs.pop()
+    removed = logs.pop()
     writeLogs(logs)
-    return ret
+    return removed
     
+def lastLogs(args):
+    try:
+        amount = args[2]
+    except:
+        amount = 1
+
+    logs = readLogs()
+    i = int(amount)
+    if len(logs) < i:
+        return "There aren't that many logs"
+    return logs[-i:]
 
 if __name__ == "__main__": main()
