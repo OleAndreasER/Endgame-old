@@ -1,0 +1,25 @@
+[
+  {
+    "date":"27/10/21",
+    "lifts": [
+      {
+        "name":"squat",
+        "type":"volume",
+        "weight": 120,
+        "isFail": false
+      },
+      {
+        "name":"press",
+        "type":"volume",
+        "weight": 52.5,
+        "isFail": false
+      },
+      {
+        "name":"row",
+        "type":"pr",
+        "weight": 70,
+        "isFail": false
+      }
+    ]
+  }
+]
