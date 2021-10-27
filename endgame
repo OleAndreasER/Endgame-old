@@ -1,0 +1,8 @@
+#!/bin/python3
+
+import json
+
+def main():
+    print("H")
+
+if __name__ == "__main__": main()
