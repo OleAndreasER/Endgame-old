@@ -3,29 +3,23 @@
     "date": "27/10/21",
     "lifts": [
       {
-        "name": "squat",
-        "type": "volume",
+        "name": "Squat",
+        "type": "Volume",
         "weight": 120,
         "isFail": false
       },
       {
-        "name": "press",
-        "type": "volume",
+        "name": "Press",
+        "type": "Volume",
         "weight": 52.5,
         "isFail": false
       },
       {
-        "name": "row",
-        "type": "pr",
+        "name": "Row",
+        "type": "PR",
         "weight": 70,
         "isFail": false
       }
     ]
-  },
-  {
-    "test": "srntdeai"
-  },
-  {
-    "test": "srntdeai"
   }
 ]

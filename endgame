@@ -12,9 +12,9 @@ def main():
         appendLogs({"test":"srntdeai"})
         print('added')
     elif args[1] == 'list':
-        print(lastLogs(args))
+        print(formatList(formatLog, lastLogs(args)))
     elif args[1] == "stats":
-        print(formatStats(readLogs('stats.json')))
+        print(formatList(formatLift3RM, readLogs('stats.json')["lifts"]))
     else:
         print('invalid argument')
 
@@ -38,10 +38,8 @@ def removeLog():
     return removed
     
 def lastLogs(args):
-    try:
-        amount = args[2]
-    except:
-        amount = 1
+    try:    amount = args[2]
+    except: amount = 1
 
     logs = readLogs()
     i = int(amount)
@@ -49,11 +47,17 @@ def lastLogs(args):
         return "There aren't that many logs"
     return logs[-i:]
 
-def formatStats(stats):
-    return "\n".join([formatLift3RM(lift) for lift in stats["lifts"]])
-    
+def formatList(formatFunc, li):
+    return "\n".join([formatFunc(el) for el in li])
 
 def formatLift3RM(lift):
     return f"{lift['name']} 3RM: {lift['3RM']}kg"
 
+def formatLog(log):
+    return f"{log['date']}:\n{formatList(formatLogLift, log['lifts'])}"
+
+def formatLogLift(lift):
+    return f"{lift['type']} {lift['name']}: {lift['weight']}kg"
+
+        
 if __name__ == "__main__": main()
