@@ -16,14 +16,12 @@ def main():
     else:
         print('invalid argument')
 
-
-
 def writeLogs(data):
     with open('logs.json', 'w') as f:
         json.dump(data, f, indent=2)
 
-def readLogs():
-    with open('logs.json') as f:
+def readLogs(file="logs.json"):
+    with open(file) as f:
         return json.loads(f.read())
 
 def appendLogs(data):
