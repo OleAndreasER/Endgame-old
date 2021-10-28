@@ -13,6 +13,8 @@ def main():
         print('added')
     elif args[1] == 'list':
         print(lastLogs(args))
+    elif args[1] == "stats":
+        print(formatStats(readLogs('stats.json')))
     else:
         print('invalid argument')
 
@@ -46,5 +48,12 @@ def lastLogs(args):
     if len(logs) < i:
         return "There aren't that many logs"
     return logs[-i:]
+
+def formatStats(stats):
+    return "\n".join([formatLift3RM(lift) for lift in stats["lifts"]])
+    
+
+def formatLift3RM(lift):
+    return f"{lift['name']} 3RM: {lift['3RM']}kg"
 
 if __name__ == "__main__": main()
