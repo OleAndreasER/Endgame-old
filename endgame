@@ -5,43 +5,57 @@ import sys
 
 def main():
     args = sys.argv
-    if args[1] == 'rm':
-        removed = removeLog()
-        print('removed', removed)
-    elif args[1] == 'add':
-        appendLogs({"test":"srntdeai"})
-        print('added')
-    elif args[1] == 'list':
-        print(formatList(formatLog, lastLogs(args)))
-    elif args[1] == "stats":
-        print(formatList(formatLift3RM, readLogs('stats.json')["lifts"]))
-    else:
-        print(liftTypes)
-        print('invalid argument')
+    try:
+        arguments[args[1]]["run"](args)
+    except:
+        print('Try "endgame help" for a list of arguments')
 
-def liftType(name,typ,sets,reps,percentOf3RM):
-        return {
-            "name": name,
-            "type": typ,
-            "sets": sets,
-            "reps": reps,
-            "percentOf3RM": percentOf3RM
-        }
-liftTypes = [
-        liftType("Squat","Volume",3,5,87),
-        liftType("Squat","PR",1,3,100),
-        liftType("Deadlift","Volume",1,3,100),
-        liftType("Deadlift","PR",1,3,100),
-        liftType("Press","Volume",1,3,100),
-        liftType("Press","PR",1,3,100),
-        liftType("Bench","Volume",1,3,100),
-        liftType("Bench","PR",1,3,100),
-        liftType("Chins","Volume",1,3,100),
-        liftType("Chins","PR",1,3,100),
-        liftType("Rows","Volume",1,3,100),
-        liftType("Rows","PR",1,3,100),
-        
-        ]
+def helpCmd(args):
+    print("nice")
+
+def rmCmd(args):
+    removed = removeLog()
+    print('removed', removed)
+
+def addCmd(args):
+    appendLogs({"test":"srntdeai"})
+    print('added')
+
+def listCmd(args):
+    print(formatList(formatLog, lastLogs(args)))
+
+def runCmd(args):
+    print(formatList(formatLift3RM, readLogs('stats.json')["lifts"]))
+
+def liftsCmd(args):
+    print(formatDict(formatSessionsOfLift, sessionsOfLifts))
+
+arguments = {
+    "help": {
+        "run": helpCmd,
+        "description": "help function"
+    },
+    "rm": {
+        "run": rmCmd,
+        "description": "help function"
+    },
+    "add": {
+        "run": addCmd,
+        "description": "help function"
+    },
+    "list": {
+        "run": listCmd,
+        "description": "help function"
+    },
+    "stats": {
+        "run": runCmd,
+        "description": "help function"
+    },
+    "lifts": {
+        "run": liftsCmd,
+        "description": "help function"
+    },
+}
 
 def writeLogs(data):
     with open('logs.json', 'w') as f:
@@ -75,6 +89,9 @@ def lastLogs(args):
 def formatList(formatFunc, li):
     return "\n".join([formatFunc(el) for el in li])
 
+def formatDict(formatFunc, dic):
+    return "\n".join([formatFunc(key, dic[key]) for key in dic.keys()])
+
 def formatLift3RM(lift):
     return f"{lift['name']} 3RM: {lift['3RM']}kg"
 
@@ -84,5 +101,45 @@ def formatLog(log):
 def formatLogLift(lift):
     return f"{lift['type']} {lift['name']}: {lift['weight']}kg"
 
-        
+def formatSessionsOfLift(lift, sessions):
+    return f"{lift}:\n{formatList(formatSession, sessions)}"
+
+def formatSession(session):
+    return f"   {session['type']}:\n{formatList(formatBlock, session['blocks'])}"
+
+def formatBlock(block):
+    return f"       {block[0]}x{block[1]} {block[2]}% of 3RM"
+
+def session(typ,blocks):
+        return {
+            "type": typ,
+            "blocks": blocks #[[sets, reps, % of 3RM],]
+        }
+sessionsOfLifts = {
+        "Squat": [
+            session("Volume",[[3,5,87]]),
+            session("PR",[[1,3,100],[1,5,87]]),
+        ],
+        "Deadlift": [
+            session("Volume",[[1,3,100]]),
+            session("PR",[[1,3,100],[1,4,87]]),
+        ],
+        "Press": [
+            session("Volume",[[2,3,100]]),
+            session("PR",[[2,3,100]]),
+        ],
+        "Bench": [
+            session("Volume",[[1,3,100]]),
+            session("PR",[[1,3,100],[1,5,87]]),
+        ],
+        "Chins": [
+            session("Volume",[[1,3,100]]),
+            session("PR",[[1,3,100],[1,5,87]]),
+        ],
+        "Rows": [
+            session("Volume",[[1,3,100]]),
+            session("PR",[[1,3,100],[1,5,87]])
+        ]
+}
+
 if __name__ == "__main__": main()
