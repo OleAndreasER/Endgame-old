@@ -150,6 +150,17 @@ sessionsOfLifts = {
     ]
 }
 
+movementTypes = {
+             #Day A ,  Day B,
+    "Legs": ["Squat", "Deadlift"],
+    "Push": ["Press", "Bench"],
+    "Pull": ["Chins", "Rows"]
+}
+
+#
+
+
+
 #MICS
 def longestCmdName():
     return max([len(cmdName) for cmdName in arguments.keys()])
