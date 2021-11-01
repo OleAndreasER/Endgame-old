@@ -24,8 +24,8 @@ def addCmd(args):
 def listCmd(args):
     print(formatList(formatLog, lastLogs(args)))
 
-def runCmd(args):
-    print(formatList(formatLift3RM, readLogs('stats.json')["lifts"]))
+def statsCmd(args):
+    print(formatDict(formatLift3RM, readLogs('stats.json')["lifts"]))
 
 def liftsCmd(args):
     print(formatDict(formatSessionsOfLift, sessionsOfLifts))
@@ -48,7 +48,7 @@ arguments = {
         "description": "help function"
     },
     "stats": {
-        "run": runCmd,
+        "run": statsCmd,
         "description": "help function"
     },
     "lifts": {
@@ -92,8 +92,8 @@ def formatList(formatFunc, li):
 def formatDict(formatFunc, dic):
     return "\n".join([formatFunc(key, dic[key]) for key in dic.keys()])
 
-def formatLift3RM(lift):
-    return f"{lift['name']} 3RM: {lift['3RM']}kg"
+def formatLift3RM(lift, stats):
+    return f"{lift} 3RM: {stats['3RM']}kg"
 
 def formatLog(log):
     return f"{log['date']}:\n{formatDict(formatLogLift, log['lifts'])}"
