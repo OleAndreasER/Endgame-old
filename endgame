@@ -100,7 +100,7 @@ def formatList(formatFunc, li):
     return "\n".join([formatFunc(el) for el in li])
 
 def formatDict(formatFunc, dic):
-    return "\n".join([formatFunc(key, dic[key]) for key in dic.keys()])
+    return "\n".join([formatFunc(key, value) for key, value in dic.items()])
 
 def formatLift3RM(lift, stats):
     return f"{lift} 3RM: {stats['3RM']}kg"
@@ -173,9 +173,9 @@ def nextTrainingSession(previous):
     }
 
 def nextLifts(previousLifts):
-    return {lift: nextLiftStats(previousLifts[lift], lift) for lift in previousLifts.keys()}
+    return {lift: nextLiftStats(lift, stats) for lift, stats in previousLifts.items()}
 
-def nextLiftStats(previousLift, name):
+def nextLiftStats(name, previousLift):
     typ = nextType(previousLift)
     return {
         "type": typ,
@@ -190,7 +190,7 @@ def nextType(previousLift):
 def nextWeight(typ, weight, name):
     RM = readLogs('stats.json')["lifts"][name]["3RM"]
     percent = sessionsOfLifts[name][typ][0][2]
-    return round(RM * percent / 100)
+    return RM * percent / 100
 
 def nextVolumeSetNr(previousVolumeSetNr):
     return None
@@ -199,5 +199,7 @@ def nextVolumeSetNr(previousVolumeSetNr):
 def longestCmdName():
     return max([len(cmdName) for cmdName in arguments.keys()])
 
+def roundToNearest(num, to):
+    return
 #
 if __name__ == "__main__": main()
