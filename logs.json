@@ -2,20 +2,17 @@
   {
     "date": "27/10/21",
     "lifts": {
-      "Squat":
-      {
+      "Squat": {
         "type": "Volume",
         "weight": 120,
         "isFail": false
       },
-      "Press":
-      {
+      "Press": {
         "type": "Volume",
         "weight": 52.5,
         "isFail": false
       },
-      "Row":
-      {
+      "Row": {
         "type": "PR",
         "weight": 70,
         "isFail": false

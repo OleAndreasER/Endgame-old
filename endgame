@@ -7,10 +7,11 @@ def main():
     args = sys.argv
     
     arguments[args[1]]["run"](args)
-    print('Try "endgame help" for a list of arguments')
+    #print('Try "endgame help" for a list of arguments')
 
 #ARGUMENTS
 def helpCmd(args):
+    print("Arguments:")
     print(formatDict(formatCmdInfo, arguments))
 
 def rmCmd(args):
