@@ -190,7 +190,7 @@ def nextType(previousLift):
 def nextWeight(typ, weight, name):
     RM = readLogs('stats.json')["lifts"][name]["3RM"]
     percent = sessionsOfLifts[name][typ][0][2]
-    return RM * percent / 100
+    return round(RM * percent / 100)
 
 def nextVolumeSetNr(previousVolumeSetNr):
     return None
