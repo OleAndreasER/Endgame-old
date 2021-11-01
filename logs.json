@@ -5,17 +5,20 @@
       "Squat": {
         "type": "Volume",
         "weight": 120,
-        "isFail": false
+        "isFail": false,
+        "volumeSetNr": 1
       },
       "Press": {
         "type": "Volume",
         "weight": 52.5,
-        "isFail": false
+        "isFail": false,
+        "volumeSetNr": 2
       },
       "Row": {
         "type": "PR",
         "weight": 70,
-        "isFail": false
+        "isFail": false,
+        "volumeSetNr": 0
       }
     }
   }

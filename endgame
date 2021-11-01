@@ -19,7 +19,7 @@ def rmCmd(args):
     print('removed', removed)
 
 def addCmd(args):
-    appendLogs({"test":"srntdeai"})
+    appendLogs({})
     print('added')
 
 def listCmd(args):
@@ -30,6 +30,9 @@ def statsCmd(args):
 
 def liftsCmd(args):
     print(formatDict(formatSessionsOfLift, sessionsOfLifts))
+
+def nextCmd(args):
+    print(nextTrainingSession(lastLogs([])[0]))
 
 arguments = {
     "help": {
@@ -56,6 +59,10 @@ arguments = {
         "run": liftsCmd,
         "description": "Prints the program sessions for each lift."
     },
+    "next": {
+        "run": nextCmd,
+        "description": "h" #hh
+    }
 }
 
 #JSON
@@ -151,7 +158,7 @@ sessionsOfLifts = {
 }
 
 movementTypes = {
-             #Day A ,  Day B,
+             #Day A    Day B
     "Legs": ["Squat", "Deadlift"],
     "Push": ["Press", "Bench"],
     "Pull": ["Chins", "Rows"]
@@ -159,7 +166,32 @@ movementTypes = {
 
 #
 
+def nextTrainingSession(previous):
+    return {
+        "date": "a date",
+        "lifts": nextLifts(previous["lifts"])
+    }
 
+def nextLifts(previousLifts):
+    return {lift: nextLiftStats(previousLifts[lift]) for lift in previousLifts.keys()}
+
+def nextLiftStats(previousLift):
+    typ = nextType(previousLift)
+    return {
+        "type": typ,
+        "weight": nextWeight(typ, previousLift["weight"]),
+        "isFail": False,
+        "volumeSetNr": nextVolumeSetNr(previousLift["volumeSetNr"])
+    }
+
+def nextType(previousLift):
+    return None
+
+def nextWeight(typ, weight):
+    return None
+
+def nextVolumeSetNr(previousVolumeSetNr):
+    return None
 
 #MICS
 def longestCmdName():
