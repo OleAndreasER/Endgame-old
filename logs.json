@@ -14,7 +14,7 @@
         "isFail": false,
         "volumeSetNr": 2
       },
-      "Row": {
+      "Rows": {
         "type": "PR",
         "weight": 70,
         "isFail": false,
