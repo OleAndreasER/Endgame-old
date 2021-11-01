@@ -1,25 +1,25 @@
 [
   {
     "date": "27/10/21",
-    "lifts": [
+    "lifts": {
+      "Squat":
       {
-        "name": "Squat",
         "type": "Volume",
         "weight": 120,
         "isFail": false
       },
+      "Press":
       {
-        "name": "Press",
         "type": "Volume",
         "weight": 52.5,
         "isFail": false
       },
+      "Row":
       {
-        "name": "Row",
         "type": "PR",
         "weight": 70,
         "isFail": false
       }
-    ]
+    }
   }
 ]

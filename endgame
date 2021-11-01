@@ -96,10 +96,10 @@ def formatLift3RM(lift):
     return f"{lift['name']} 3RM: {lift['3RM']}kg"
 
 def formatLog(log):
-    return f"{log['date']}:\n{formatList(formatLogLift, log['lifts'])}"
+    return f"{log['date']}:\n{formatDict(formatLogLift, log['lifts'])}"
 
-def formatLogLift(lift):
-    return f"{lift['type']} {lift['name']}: {lift['weight']}kg"
+def formatLogLift(lift, stats):
+    return f"{stats['type']} {lift}: {stats['weight']}kg"
 
 def formatSessionsOfLift(lift, sessions):
     return f"{lift}:\n{formatList(formatSession, sessions)}"
