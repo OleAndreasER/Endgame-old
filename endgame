@@ -5,9 +5,11 @@ import sys
 
 def main():
     args = sys.argv
-    
-    arguments[args[1]]["run"](args)
-    #print('Try "endgame help" for a list of arguments')
+    if args[1] in arguments:
+        arguments[args[1]]["run"](args)
+    else:
+        print('Try "endgame help" for a list of arguments.')
+
 
 #ARGUMENTS
 def helpCmd(args):
@@ -207,7 +209,7 @@ def nextVolumeSetNr(previousVolumeSetNr):
 
 #MICS
 def longestCmdName():
-    return max([len(cmdName) for cmdName in arguments.keys()])
+    return max([len(cmdName) for cmdName in arguments])
 
 def roundToNearest(num, to): #positive
     ret = 0
