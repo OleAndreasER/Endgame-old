@@ -32,7 +32,12 @@ def liftsCmd(args):
     print(formatDict(formatSessionsOfLift, sessionsOfLifts))
 
 def nextCmd(args):
-    print(nextTrainingSession(lastLogs([])[0]))
+    print(formatLog(nextTrainingSession(lastLogs([])[0])))
+
+def testCmd(args):
+    print(roundToNearest(101, 2.5))
+    print(roundToNearest(102, 2.5))
+    print(roundToNearest(103, 2.5))
 
 arguments = {
     "help": {
@@ -58,6 +63,10 @@ arguments = {
     "lifts": {
         "run": liftsCmd,
         "description": "Prints the program sessions for each lift."
+    },
+    "test": {
+        "run": testCmd,
+        "description": "h" #hh
     },
     "next": {
         "run": nextCmd,
@@ -190,7 +199,8 @@ def nextType(previousLift):
 def nextWeight(typ, weight, name):
     RM = readLogs('stats.json')["lifts"][name]["3RM"]
     percent = sessionsOfLifts[name][typ][0][2]
-    return RM * percent / 100
+    to = readLogs('stats.json')["lifts"][name]['progression']
+    return roundToNearest(RM * percent / 100, to)
 
 def nextVolumeSetNr(previousVolumeSetNr):
     return None
@@ -199,7 +209,11 @@ def nextVolumeSetNr(previousVolumeSetNr):
 def longestCmdName():
     return max([len(cmdName) for cmdName in arguments.keys()])
 
-def roundToNearest(num, to):
-    return
+def roundToNearest(num, to): #positive
+    ret = 0
+    while ret < num:
+        ret += to
+    return ret if ret-num < num-ret+to else ret-to #round up or down
+
 #
 if __name__ == "__main__": main()
