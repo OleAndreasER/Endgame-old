@@ -6,37 +6,37 @@
     {
       "3RM":120,
       "progression":2.5,
-      "volumeSessions": 0
+      "sessions": 1
     },
     "Deadlift":
     {
       "3RM":135,
       "progression":2.5,
-      "volumeSessions": 0
+      "sessions": 1
     },
     "Press":
     {
       "3RM":52.5,
       "progression":1.25,
-      "volumeSessions": 0
+      "sessions": 1
     },
     "Bench":
     {
       "3RM":82.5,
       "progression":1.25,
-      "volumeSessions": 0
+      "sessions": 1
     },
     "Chins":
     {
       "3RM":96.25,
       "progression":1.25,
-      "volumeSessions": 0
+      "sessions": 1
     },
     "Rows":
     {
       "3RM":72.5,
       "progression":1.25,
-      "volumeSessions": 0
+      "sessions": 1
     }
   }
 }

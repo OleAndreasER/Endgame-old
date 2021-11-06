@@ -6,19 +6,19 @@
         "type": "Volume",
         "weight": 120,
         "isFail": false,
-        "volumeSetNr": 1
+        "session": 1
       },
       "Press": {
         "type": "Volume",
         "weight": 52.5,
         "isFail": false,
-        "volumeSetNr": 2
+        "session": 2
       },
       "Rows": {
         "type": "PR",
         "weight": 70,
         "isFail": false,
-        "volumeSetNr": 0
+        "session": 1
       }
     }
   }
