@@ -9,10 +9,10 @@
         "session": 1
       },
       "Press": {
-        "type": "PR",
+        "type": "Volume",
         "weight": 52.5,
         "isFail": false,
-        "session": 1
+        "session": 2
       },
       "Rows": {
         "type": "PR",
@@ -25,23 +25,23 @@
   {
     "date": "a date",
     "lifts": {
-      "Squat": {
+      "Deadlift": {
         "type": "Volume",
-        "weight": 105.0,
+        "weight": 117.5,
         "isFail": false,
         "session": 2
       },
-      "Press": {
+      "Bench": {
         "type": "Volume",
-        "weight": 52.5,
+        "weight": 71.25,
+        "isFail": false,
+        "session": 3
+      },
+      "Chins": {
+        "type": "Volume",
+        "weight": 83.75,
         "isFail": false,
         "session": 2
-      },
-      "Rows": {
-        "type": "PR",
-        "weight": 72.5,
-        "isFail": false,
-        "session": 1
       }
     }
   }

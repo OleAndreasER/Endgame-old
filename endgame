@@ -21,7 +21,7 @@ def rmCmd(args):
     print('removed', removed)
 
 def addCmd(args):
-    appendLogs(nextTrainingSession(lastLogs([])[0]))
+    appendLogs(nextTrainingSession(lastLogs([0,0,2])[0]))
     print('added')
 
 def listCmd(args):
@@ -34,7 +34,7 @@ def liftsCmd(args):
     print(formatDict(formatSessionsOfLift, sessionsOfLifts))
 
 def nextCmd(args):
-    print(formatLog(nextTrainingSession(lastLogs([])[0])))
+    print(formatLog(nextTrainingSession(lastLogs([0,0,2])[0])))
 
 def testCmd(args):
     return
@@ -101,7 +101,7 @@ def lastLogs(args):
     logs = readLogs()
     i = int(amount)
     if len(logs) < i:
-        return "There aren't that many logs"
+        i = len(logs)
     return logs[-i:]
 
 #FORMATING
@@ -148,7 +148,7 @@ sessionsOfLifts = {
         "PR":     [[1,3,100],[1,5,87]]
     },
     "Deadlift": {
-        "Volume": [[1,3,100]],
+        "Volume": [[1,5,87]],
         "PR":     [[1,3,100],[1,4,87]]
     },
     "Press": {
@@ -156,15 +156,15 @@ sessionsOfLifts = {
         "PR":     [[2,3,100]]
     },
     "Bench": {
-        "Volume": [[1,3,100]],
+        "Volume": [[3,5,87]],
         "PR":     [[1,3,100],[1,5,87]]
     },
     "Chins": {
-        "Volume": [[1,3,100]],
+        "Volume": [[3,5,87]],
         "PR":     [[1,3,100],[1,5,87]]
     },
     "Rows": {
-        "Volume": [[1,3,100]],
+        "Volume": [[3,5,87]],
         "PR":     [[1,3,100],[1,5,87]]
     }
 }
