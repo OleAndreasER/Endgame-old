@@ -10,7 +10,6 @@ def main():
     else:
         print('Try "endgame help" for a list of arguments.')
 
-
 #ARGUMENTS
 def helpCmd(args):
     print("Arguments:")
@@ -21,11 +20,13 @@ def rmCmd(args):
     print('removed', removed)
 
 def addCmd(args):
-    appendLogs(nextTrainingSession(lastLogs([0,0,2])[0]))
+    appendLogs(nextTrainingSession(lastLogs(2)[0]))
     print('added')
 
 def listCmd(args):
-    print(formatList(formatLog, lastLogs(args)))
+    try:    amount = int(args[2])
+    except: amount = 1
+    print(formatList(formatLog, lastLogs(amount)))
 
 def statsCmd(args):
     print(formatDict(formatLift3RM, readLogs('stats.json')["lifts"]))
@@ -34,7 +35,7 @@ def liftsCmd(args):
     print(formatDict(formatSessionsOfLift, sessionsOfLifts))
 
 def nextCmd(args):
-    print(formatLog(nextTrainingSession(lastLogs([0,0,2])[0])))
+    print(formatLog(nextTrainingSession(lastLogs(2)[0])))
 
 def testCmd(args):
     return
@@ -94,14 +95,9 @@ def removeLog():
     writeLogs(logs)
     return removed
     
-def lastLogs(args):
-    try:    amount = args[2]
-    except: amount = 1
-
+def lastLogs(amount):
     logs = readLogs()
-    i = int(amount)
-    if len(logs) < i:
-        i = len(logs)
+    i = amount if amount < len(logs) else len(logs)
     return logs[-i:]
 
 #FORMATING
