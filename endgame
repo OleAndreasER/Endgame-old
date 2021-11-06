@@ -21,7 +21,7 @@ def rmCmd(args):
     print('removed', removed)
 
 def addCmd(args):
-    appendLogs({})
+    appendLogs(nextTrainingSession(lastLogs([])[0]))
     print('added')
 
 def listCmd(args):
@@ -37,9 +37,7 @@ def nextCmd(args):
     print(formatLog(nextTrainingSession(lastLogs([])[0])))
 
 def testCmd(args):
-    print(roundToNearest(101, 2.5))
-    print(roundToNearest(102, 2.5))
-    print(roundToNearest(103, 2.5))
+    return
 
 arguments = {
     "help": {
@@ -193,9 +191,9 @@ def nextLiftStats(name, previousLift):
     typ = nextType(name, previousLift)
     return {
         "type": typ,
-        "weight": nextWeight(typ, name),
+        "weight": weight(typ, name),
         "isFail": False,
-        "session": 1 if typ == "PR" else previousLift["session"] + 1
+        "session": nextSession(typ, previousLift["session"])
     }
 
 def nextType(name, previousLift):
@@ -203,14 +201,14 @@ def nextType(name, previousLift):
     current = previousLift["session"]
     return "PR" if total == current else "Volume"
 
-def nextWeight(typ, name):
+def weight(typ, name):
     RM = readLogs('stats.json')["lifts"][name]["3RM"]
     percent = sessionsOfLifts[name][typ][0][2]
-    to = readLogs('stats.json')["lifts"][name]['progression']
-    return roundToNearest(RM * percent / 100, to)
+    progression = readLogs('stats.json')["lifts"][name]['progression']
+    return roundToNearest(RM * percent / 100, progression)
 
-def nextVolumeSetNr(previousVolumeSetNr):
-    return None
+def nextSession(typ, session):
+    return 1 if typ == "PR" else session + 1
 
 #MICS
 def longestCmdName():
