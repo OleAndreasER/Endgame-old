@@ -44,5 +44,51 @@
         "session": 2
       }
     }
+  },
+  {
+    "date": "a date",
+    "lifts": {
+      "Squat": {
+        "type": "Volume",
+        "weight": 105.0,
+        "isFail": false,
+        "session": 2
+      },
+      "Press": {
+        "type": "Volume",
+        "weight": 52.5,
+        "isFail": false,
+        "session": 3
+      },
+      "Rows": {
+        "type": "PR",
+        "weight": 73.75,
+        "isFail": false,
+        "session": 1
+      }
+    }
+  },
+  {
+    "date": "a date",
+    "lifts": {
+      "Deadlift": {
+        "type": "Volume",
+        "weight": 117.5,
+        "isFail": false,
+        "session": 3
+      },
+      "Bench": {
+        "type": "PR",
+        "weight": 83.75,
+        "isFail": false,
+        "session": 1
+      },
+      "Chins": {
+        "type": "PR",
+        "weight": 97.5,
+        "isFail": false,
+        "session": 1
+      }
+    }
   }
 ]

@@ -20,7 +20,10 @@ def rmCmd(args):
     print('removed', removed)
 
 def addCmd(args):
-    appendLogs(nextTrainingSession(lastLogs(2)[0]))
+    lastLog = lastLogs(2)[0]
+    nextLog = nextTrainingSession(lastLog)
+    appendLogs(nextLog)
+    updateStats(nextLog)
     print('added')
 
 def listCmd(args):
@@ -35,7 +38,9 @@ def liftsCmd(args):
     print(formatDict(formatSessionsOfLift, sessionsOfLifts))
 
 def nextCmd(args):
-    print(formatLog(nextTrainingSession(lastLogs(2)[0])))
+    lastLog = lastLogs(2)[0]
+    nextLog = nextTrainingSession(lastLog)
+    print(formatLog(nextLog))
 
 def testCmd(args):
     return
@@ -77,7 +82,7 @@ arguments = {
 
 #JSON
 def writeFile(data, file="logs.json"):
-    with open('logs.json', 'w') as f:
+    with open(file, 'w') as f:
         json.dump(data, f, indent=2)
 
 def readFile(file="logs.json"):
@@ -195,10 +200,20 @@ def weight(typ, name):
     RM = readFile('stats.json')["lifts"][name]["3RM"]
     percent = sessionsOfLifts[name][typ][0][2]
     progression = readFile('stats.json')["lifts"][name]['progression']
-    return roundToNearest(RM * percent / 100, progression)
+    weight = roundToNearest(RM * percent / 100, progression)
+    return weight if typ == "Volume" else weight + progression
 
 def nextSession(typ, session):
     return 1 if typ == "PR" else session + 1
+
+def updateStats(nextLog):
+    stats = readFile('stats.json')
+    for lift in PRLifts(nextLog['lifts']):
+        stats['lifts'][lift]['3RM'] += stats['lifts'][lift]['progression']
+    writeFile(stats, 'stats.json')
+
+def PRLifts(lifts):
+    return [lift for lift in lifts if lifts[lift]["type"] == "PR"]
 
 #MICS
 def longestCmdName():
