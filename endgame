@@ -29,7 +29,7 @@ def listCmd(args):
     print(formatList(formatLog, lastLogs(amount)))
 
 def statsCmd(args):
-    print(formatDict(formatLift3RM, readLogs('stats.json')["lifts"]))
+    print(formatDict(formatLift3RM, readFile('stats.json')["lifts"]))
 
 def liftsCmd(args):
     print(formatDict(formatSessionsOfLift, sessionsOfLifts))
@@ -76,27 +76,27 @@ arguments = {
 }
 
 #JSON
-def writeLogs(data):
+def writeFile(data, file="logs.json"):
     with open('logs.json', 'w') as f:
         json.dump(data, f, indent=2)
 
-def readLogs(file="logs.json"):
+def readFile(file="logs.json"):
     with open(file) as f:
         return json.loads(f.read())
 
 def appendLogs(data):
-    logs = readLogs()
+    logs = readFile()
     logs.append(data)
-    writeLogs(logs)
+    writeFile(logs)
 
 def removeLog():
-    logs = readLogs()
+    logs = readFile()
     removed = logs.pop()
-    writeLogs(logs)
+    writeFile(logs)
     return removed
     
 def lastLogs(amount):
-    logs = readLogs()
+    logs = readFile()
     i = amount if amount < len(logs) else len(logs)
     return logs[-i:]
 
@@ -117,7 +117,7 @@ def formatLogLift(lift, stats):
     return f"{stats['type']} {lift}: {stats['weight']}kg {sessionOutOfSessions(stats['session'], lift)}"
 
 def sessionOutOfSessions(session, lift):
-    return f"{session}/{readLogs('stats.json')['lifts'][lift]['sessions']}"
+    return f"{session}/{readFile('stats.json')['lifts'][lift]['sessions']}"
 
 def formatSessionsOfLift(lift, sessions):
     return f"{lift}:\n{formatDict(formatSession, sessions)}"
@@ -132,12 +132,6 @@ def formatCmdInfo(cmd, info):
     return f"   {(cmd+':').ljust(longestCmdName() + 5)}{info['description']}"
 
 #PROGRAM STRUCTURE
-def session(typ,blocks):
-    return {
-        "type": typ,
-        "blocks": blocks #[[sets, reps, % of 3RM],]
-    }
-
 sessionsOfLifts = {
     "Squat": {
         "Volume": [[3,5,87]],
@@ -193,14 +187,14 @@ def nextLiftStats(name, previousLift):
     }
 
 def nextType(name, previousLift):
-    total = readLogs('stats.json')["lifts"][name]["sessions"]
+    total = readFile('stats.json')["lifts"][name]["sessions"]
     current = previousLift["session"]
     return "PR" if total == current else "Volume"
 
 def weight(typ, name):
-    RM = readLogs('stats.json')["lifts"][name]["3RM"]
+    RM = readFile('stats.json')["lifts"][name]["3RM"]
     percent = sessionsOfLifts[name][typ][0][2]
-    progression = readLogs('stats.json')["lifts"][name]['progression']
+    progression = readFile('stats.json')["lifts"][name]['progression']
     return roundToNearest(RM * percent / 100, progression)
 
 def nextSession(typ, session):
