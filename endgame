@@ -186,20 +186,26 @@ def nextLiftStats(name, previousLift):
     typ = nextType(name, previousLift)
     return {
         "type": typ,
-        "weight": weight(typ, name),
+        "weight": nextWeight(typ, name),
         "isFail": False,
         "session": nextSession(typ, previousLift["session"])
     }
+
+def rmOfLift(lift):
+    return readFile('stats.json')["lifts"][lift]['3RM']
+
+def progressionOfLift(lift):
+    return readFile('stats.json')["lifts"][lift]['progression']
 
 def nextType(name, previousLift):
     total = readFile('stats.json')["lifts"][name]["sessions"]
     current = previousLift["session"]
     return "PR" if total == current else "Volume"
 
-def weight(typ, name):
-    RM = readFile('stats.json')["lifts"][name]["3RM"]
+def nextWeight(typ, name):
+    RM = rmOfLift(name)
     percent = sessionsOfLifts[name][typ][0][2]
-    progression = readFile('stats.json')["lifts"][name]['progression']
+    progression = progressionOfLift(name)
     weight = roundToNearest(RM * percent / 100, progression)
     return weight if typ == "Volume" else weight + progression
 
@@ -209,7 +215,7 @@ def nextSession(typ, session):
 def updateStats(nextLog):
     stats = readFile('stats.json')
     for lift in PRLifts(nextLog['lifts']):
-        stats['lifts'][lift]['3RM'] += stats['lifts'][lift]['progression']
+        stats['lifts'][lift]['3RM'] += progressionOfLift(lift)
     writeFile(stats, 'stats.json')
 
 def PRLifts(lifts):
