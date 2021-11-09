@@ -16,12 +16,20 @@ def helpCmd(args):
     print("Arguments:")
     print(formatDict(formatCmdInfo, arguments))
 
+def setupCmd(args):
+    print("Please enter a 3 rep max that is a bit bellow what you think your current 3RM is:\n")
+    print("Chin up 3RM is bodyweight + weight on your belt.")
+    stats = readFile('stats.json')
+    return
+
 def rmCmd(args):
+    if not isSetup(): return
     removed = removeLog()
     progressLifts(removed, -1)
     print('Removed: \n' + formatLog(removed))
 
 def addCmd(args):
+    if not isSetup(): return
     lastLog = lastLogs(2)[0]
     nextLog = nextTrainingSession(lastLog)
     appendLogs(nextLog)
@@ -29,22 +37,26 @@ def addCmd(args):
     print('Added: \n' + formatLog(nextLog))
 
 def listCmd(args):
+    if not isSetup(): return
     try:    amount = int(args[2])
     except: amount = 1
     print(formatList(formatLog, lastLogs(amount)))
 
 def statsCmd(args):
+    if not isSetup(): return
     print(formatDict(formatLift3RM, readFile('stats.json')["lifts"]))
 
 def liftsCmd(args):
     print(formatDict(formatSessionsOfLift, sessionsOfLifts))
 
 def nextCmd(args):
+    if not isSetup(): return
     lastLog = lastLogs(2)[0]
     nextLog = nextTrainingSession(lastLog)
     print(formatLog(nextLog))
 
 def failCmd(args):
+    if not isSetup(): return
     while True:
         lastLog = lastLogs(1)[0]
         print(formatLog(lastLog))
@@ -60,6 +72,10 @@ arguments = {
     "help": {
         "run": helpCmd,
         "description": "Print this message."
+    },
+    "setup": {
+        "run": setupCmd,
+        "description": "Set up your current 3RMs"
     },
     "rm": {
         "run": rmCmd,
@@ -81,10 +97,6 @@ arguments = {
         "run": liftsCmd,
         "description": "Prints the program sessions for each lift."
     },
-    "test": {
-        "run": testCmd,
-        "description": "h" #hh
-    },
     "next": {
         "run": nextCmd,
         "description": "Shows the next training day."
@@ -92,7 +104,11 @@ arguments = {
     "fail": {
         "run": failCmd,
         "description": "Mark PR sets from last log as failed."
-    }
+    },
+    "test": {
+        "run": testCmd,
+        "description": "h" #hh
+    },
 }
 
 #JSON
@@ -187,6 +203,11 @@ movementTypes = {
 }
 
 #
+def isSetup():
+    if len(readFile('logs.json')) < 2:
+        print('Try "endgame setup" to get going.')
+        return False
+    return True
 
 def nextTrainingSession(previous):
     return {
