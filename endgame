@@ -58,7 +58,7 @@ arguments = {
     },
     "add": {
         "run": addCmd,
-        "description": "Add the next log." #hh
+        "description": "Add the next log."
     },
     "list": {
         "run": listCmd,
@@ -78,7 +78,7 @@ arguments = {
     },
     "next": {
         "run": nextCmd,
-        "description": "h" #hh
+        "description": "Shows the next training day"
     }
 }
 
