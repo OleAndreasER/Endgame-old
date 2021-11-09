@@ -17,14 +17,15 @@ def helpCmd(args):
 
 def rmCmd(args):
     removed = removeLog()
-    print('removed', removed)
+    print('Removed: \n' + formatLog(removed))
 
 def addCmd(args):
     lastLog = lastLogs(2)[0]
     nextLog = nextTrainingSession(lastLog)
     appendLogs(nextLog)
     updateStats(nextLog)
-    print('added')
+    print('Added: \n' + formatLog(nextLog))
+
 
 def listCmd(args):
     try:    amount = int(args[2])
