@@ -28,7 +28,6 @@ def addCmd(args):
     updateStats(nextLog, 1)
     print('Added: \n' + formatLog(nextLog))
 
-
 def listCmd(args):
     try:    amount = int(args[2])
     except: amount = 1
@@ -46,12 +45,12 @@ def nextCmd(args):
     print(formatLog(nextLog))
 
 def failCmd(args):
-    lastLog = lastLogs(1)[0]
     while True:
+        lastLog = lastLogs(1)[0]
         print(formatLog(lastLog))
         inp = input("Type the lift's name (ex. Squat), to fail/unfail it.\nEnter blank to exit.\n-")
         if inp == "": return
-        elif inp.lower() in [lift.lower() for lift in lastLog['lifts']]:
+        elif inp in PRLifts(lastLog['lifts']):
             toggleFailLift(inp)
 
 def testCmd(args):
@@ -240,10 +239,22 @@ def PRLifts(lifts):
 def toggleFailLift(lift):
     log = removeLog()
     log['lifts'][lift]['isFail'] = not log['lifts'][lift]['isFail']
+    direction = 1 if log['lifts'][lift]['isFail'] else -1
+    progressLift(lift, -2*direction)
+    addSessions(lift, direction)
     appendLogs(log)
 
+def progressLift(lift, progressions):
+    stats = readFile('stats.json')
+    stats['lifts'][lift]['3RM'] += progressionOfLift(lift)*progressions
+    writeFile(stats, 'stats.json')
 
-#MICS
+def addSessions(lift, sessions):
+    stats = readFile('stats.json')
+    stats['lifts'][lift]['sessions'] += sessions
+    writeFile(stats, 'stats.json')
+
+#MISC
 def longestCmdName():
     return max([len(cmdName) for cmdName in arguments])
 
