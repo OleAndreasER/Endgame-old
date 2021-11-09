@@ -91,7 +91,7 @@ arguments = {
     },
     "fail": {
         "run": failCmd,
-        "description": "Mark lifts from last log as failed."
+        "description": "Mark PR sets from last log as failed."
     }
 }
 

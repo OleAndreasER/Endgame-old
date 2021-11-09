@@ -74,7 +74,7 @@
       "Deadlift": {
         "type": "Volume",
         "weight": 117.5,
-        "isFail": true,
+        "isFail": false,
         "session": 3
       },
       "Bench": {
