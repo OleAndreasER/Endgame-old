@@ -17,13 +17,14 @@ def helpCmd(args):
 
 def rmCmd(args):
     removed = removeLog()
+    updateStats(removed, -1)
     print('Removed: \n' + formatLog(removed))
 
 def addCmd(args):
     lastLog = lastLogs(2)[0]
     nextLog = nextTrainingSession(lastLog)
     appendLogs(nextLog)
-    updateStats(nextLog)
+    updateStats(nextLog, 1)
     print('Added: \n' + formatLog(nextLog))
 
 
@@ -213,10 +214,10 @@ def nextWeight(typ, name):
 def nextSession(typ, session):
     return 1 if typ == "PR" else session + 1
 
-def updateStats(nextLog):
+def updateStats(log, progressions):
     stats = readFile('stats.json')
-    for lift in PRLifts(nextLog['lifts']):
-        stats['lifts'][lift]['3RM'] += progressionOfLift(lift)
+    for lift in PRLifts(log['lifts']):
+        stats['lifts'][lift]['3RM'] += progressionOfLift(lift)*progressions
     writeFile(stats, 'stats.json')
 
 def PRLifts(lifts):
