@@ -1,5 +1,7 @@
 #!/bin/python3
 
+#todo: add first logs
+
 import json
 import sys
 import datetime
@@ -21,10 +23,10 @@ def setupCmd(args):
     print("Chin up 3RM is bodyweight + weight on your belt.")
     lifts = [('Squat', 2.5), ('Deadlift', 2.5), ('Press', 1.25), ('Bench', 1.25), ('Chins', 1.25), ('Rows', 1.25)]
     stats = {
-        "bodyweight": getFloatInput("Bodyweight: "),
+        "bodyweight": getPosFloatInput("Bodyweight: "),
         "lifts": {
             lift: {
-                "3RM": roundToNearest(getFloatInput(f"{lift} 3RM: "), progression),
+                "3RM": roundToNearest(getPosFloatInput(f"{lift} 3RM: "), progression),
                 "progression": progression,
                 "sessions": 1
             }
@@ -34,7 +36,6 @@ def setupCmd(args):
     writeFile(stats, 'stats.json')
     print('Your stats are set up.')
     print('"endgame next" to view your first workout.')
-
 
 def rmCmd(args):
     if not isSetup(): return
@@ -77,6 +78,7 @@ def failCmd(args):
         elif inp in PRLifts(lastLog['lifts']):
             toggleFailLift(inp)
 
+    lastLog = lastLogs(2)[0]
 def testCmd(args):
     return
 
@@ -224,11 +226,12 @@ def isSetup():
         return False
     return True
 
-def getFloatInput(prompt):
+def getPosFloatInput(prompt):
     try:
-        return float(input(prompt))
+        ret = float(input(prompt))
+        return ret if ret >= 0 else getPosFloatInput(prompt)
     except:
-        return getFloatInput(prompt)
+        return getPosFloatInput(prompt)
 
 def nextTrainingSession(previous):
     return {
