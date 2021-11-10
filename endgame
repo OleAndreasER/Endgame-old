@@ -17,10 +17,24 @@ def helpCmd(args):
     print(formatDict(formatCmdInfo, arguments))
 
 def setupCmd(args):
-    print("Please enter a 3 rep max that is a bit bellow what you think your current 3RM is:\n")
+    print("Please enter a 3 rep max that is a bit bellow what you think your current 3RM is.")
     print("Chin up 3RM is bodyweight + weight on your belt.")
-    stats = readFile('stats.json')
-    return
+    lifts = [('Squat', 2.5), ('Deadlift', 2.5), ('Press', 1.25), ('Bench', 1.25), ('Chins', 1.25), ('Rows', 1.25)]
+    stats = {
+        "bodyweight": getFloatInput("Bodyweight: "),
+        "lifts": {
+            lift: {
+                "3RM": roundToNearest(getFloatInput(f"{lift} 3RM: "), progression),
+                "progression": progression,
+                "sessions": 1
+            }
+            for lift, progression in lifts
+        }
+    }
+    writeFile(stats, 'stats.json')
+    print('Your stats are set up.')
+    print('"endgame next" to view your first workout.')
+
 
 def rmCmd(args):
     if not isSetup(): return
@@ -30,8 +44,7 @@ def rmCmd(args):
 
 def addCmd(args):
     if not isSetup(): return
-    lastLog = lastLogs(2)[0]
-    nextLog = nextTrainingSession(lastLog)
+    nextLog = nextTrainingSession(logNr(2))
     appendLogs(nextLog)
     progressLifts(nextLog, 1)
     print('Added: \n' + formatLog(nextLog))
@@ -51,14 +64,13 @@ def liftsCmd(args):
 
 def nextCmd(args):
     if not isSetup(): return
-    lastLog = lastLogs(2)[0]
-    nextLog = nextTrainingSession(lastLog)
+    nextLog = nextTrainingSession(logNr(2))
     print(formatLog(nextLog))
 
 def failCmd(args):
     if not isSetup(): return
     while True:
-        lastLog = lastLogs(1)[0]
+        lastLog = logNr(1)
         print(formatLog(lastLog))
         inp = input("Type the lift's name (ex. Squat), to fail/unfail it.\nEnter blank to exit.\n-")
         if inp == "": return
@@ -136,6 +148,9 @@ def lastLogs(amount):
     i = amount if amount < len(logs) else len(logs)
     return logs[-i:]
 
+def logNr(nr):
+    return lastLogs(nr)[0]
+
 #FORMATING
 def formatList(formatFunc, li):
     return "\n".join([formatFunc(el) for el in li])
@@ -208,6 +223,12 @@ def isSetup():
         print('Try "endgame setup" to get going.')
         return False
     return True
+
+def getFloatInput(prompt):
+    try:
+        return float(input(prompt))
+    except:
+        return getFloatInput(prompt)
 
 def nextTrainingSession(previous):
     return {
