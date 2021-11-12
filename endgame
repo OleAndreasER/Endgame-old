@@ -1,9 +1,5 @@
 #!/bin/python3
 
-#todo: 
-#make files if no file ?
-#pop empty list
-
 import json
 import sys
 import datetime
