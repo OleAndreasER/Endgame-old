@@ -216,7 +216,7 @@ movementTypes = {
              #Day A    Day B
     "Legs": ["Squat", "Deadlift"],
     "Push": ["Bench", "Press"],
-    "Pull": ["Chins", "Rows"]
+    "Pull": ["Rows", "Chins"]
 }
 
 def firstLogs(amountOfLogs):
@@ -274,6 +274,9 @@ def rmOfLift(lift):
 def progressionOfLift(lift):
     return readFile('stats.json')["lifts"][lift]['progression']
 
+def getBw():
+    return readFile('stats.json')["bodyweight"]
+
 def nextType(name, previousLift):
     total = readFile('stats.json')["lifts"][name]["sessions"]
     current = previousLift["session"]
@@ -283,7 +286,8 @@ def nextWeight(typ, name):
     RM = rmOfLift(name)
     percent = sessionsOfLifts[name][typ][0][2]
     progression = progressionOfLift(name)
-    weight = roundToNearest(RM * percent / 100, progression)
+    bwPenalty = getBw() if name == "Chins" else 0
+    weight = roundToNearest((RM * percent / 100) - bwPenalty, progression) 
     return weight if typ == "Volume" else weight + progression
 
 def nextSession(typ, session):
