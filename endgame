@@ -41,6 +41,9 @@ def setupCmd(args):
 
 def rmCmd(args):
     if not isSetup(): return
+    if len(readFile('logs.json')) == 0:
+        print("No logs to remove")
+        return
     removed = removeLog()
     progressLifts(removed, -1)
     print('Removed: \n' + formatLog(removed))
