@@ -1,9 +1,8 @@
 #!/bin/python3
 
 #todo: 
-#add first logs
-#make files if no file
-#fix isSetup()
+#make files if no file ?
+#pop empty list
 
 import json
 import sys
@@ -48,10 +47,10 @@ def rmCmd(args):
 
 def addCmd(args):
     if not isSetup(): return
-    nextLog = nextTrainingSession(logNr(2))
+    nextLog = getNextLog()
+    print('Added: \n' + formatLog(nextLog))
     appendLogs(nextLog)
     progressLifts(nextLog, 1)
-    print('Added: \n' + formatLog(nextLog))
 
 def listCmd(args):
     if not isSetup(): return
@@ -68,8 +67,7 @@ def liftsCmd(args):
 
 def nextCmd(args):
     if not isSetup(): return
-    nextLog = nextTrainingSession(logNr(2))
-    print(formatLog(nextLog))
+    print(formatLog(getNextLog()))
 
 def failCmd(args):
     if not isSetup(): return
@@ -218,13 +216,26 @@ sessionsOfLifts = {
 movementTypes = {
              #Day A    Day B
     "Legs": ["Squat", "Deadlift"],
-    "Push": ["Press", "Bench"],
+    "Push": ["Bench", "Press"],
     "Pull": ["Chins", "Rows"]
 }
 
-#
+def firstLogs(amountOfLogs):
+    return {
+        "date": datetime.datetime.now().strftime('%x'),
+        "lifts": {
+            movementType[amountOfLogs]: {
+                "type": "PR",
+                "weight": nextWeight("PR", movementType[amountOfLogs]),
+                "isFail": False,
+                "session": 1
+            }
+            for movementType in movementTypes.values()
+        }
+    }
+
 def isSetup():
-    if len(readFile('logs.json')) < 2:
+    if len(readFile('stats.json')) == 0:
         print('Try "endgame setup" to get going.')
         return False
     return True
@@ -253,6 +264,10 @@ def nextLiftStats(name, previousLift):
         "isFail": False,
         "session": nextSession(typ, previousLift["session"])
     }
+
+def getNextLog():
+    amountOfLogs = len(readFile('logs.json'))
+    return firstLogs(amountOfLogs) if amountOfLogs < 2 else nextTrainingSession(logNr(2))
 
 def rmOfLift(lift):
     return readFile('stats.json')["lifts"][lift]['3RM']
