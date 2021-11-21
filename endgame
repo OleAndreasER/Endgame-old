@@ -79,8 +79,14 @@ def failCmd(args):
             toggleFailLift(inp)
 
     lastLog = lastLogs(2)[0]
-def testCmd(args):
-    return
+
+def bwCmd(args):
+    if not isSetup(): return   
+    stats = readFile('stats.json')
+    print(f'Current bodyweight: {stats["bodyweight"]}kg')   
+    stats["bodyweight"] = getPosFloatInput("Bodyweight: ")
+    writeFile(stats, 'stats.json')
+    print('updated')
 
 arguments = {
     "help": {
@@ -119,9 +125,9 @@ arguments = {
         "run": failCmd,
         "description": "Mark PR sets from last log as failed."
     },
-    "test": {
-        "run": testCmd,
-        "description": "h" #hh
+    "bw": {
+        "run": bwCmd,
+        "description": "Update your bodyweight."
     },
 }
 
